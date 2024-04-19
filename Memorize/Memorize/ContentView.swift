@@ -31,17 +31,93 @@ import SwiftUI
 
 
  struct ContentView: View {
-     let emojis: [String] = ["👻", "🎃", "🕷️", "👹"]
+     let emojis: [String] = ["👻", "🎃", "🕷️", "👹", "😈", "💀", "🧙", "🙀", "😱", "☠️", "🍭"]
+     @State var cardCount: Int = 4
      
      var body: some View {
-         HStack {
+         VStack{
+             ScrollView {
+                 cards
+             }
+             Spacer()
+             cardCountAdjusters
+         }
+         .padding()  // view modifier - scopes to elements inside the view
+     }
+     
+     // separate out elements to their own "some View"
+     var cards: some View {
+         LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
              // iterable view constructor
-             ForEach(emojis.indices, id: \.self) { index in
+             ForEach(0..<cardCount, id: \.self) { index in
                  CardView(content: emojis[index])
+                     .aspectRatio(2/3, contentMode: .fit)
              }
          }
          .foregroundColor(.orange)
-         .padding()  // view modifier - scopes to elements inside the view
+     }
+     
+     var cardCountAdjusters: some View {
+         HStack {
+             cardRemover
+             Spacer()
+             cardAdder
+         }
+     }
+     
+     var cardRemover: some View {
+//         Button("remove Card") {
+//             cardCount -= 1
+//         }
+         
+//         // another type of button constructor:
+//         Button(action: {
+//             if cardCount > 1{
+//                 cardCount -= 1
+//             }
+//         }, label: {
+//             Image(systemName: "rectangle.stack.badge.minus.fill")
+//         })
+//         .imageScale(.large)
+//         .font(.largeTitle)
+         
+         // using our custom constructor function:
+         cardCountAdjuster(by: -1, symbol: "rectangle.stack.badge.minus.fill")
+     }
+     
+     var cardAdder: some View {
+//         Button("add Card") {
+//             cardCount += 1
+//         }
+         
+//         // Another type of button constructor:
+//         Button(action: {
+//             if cardCount < emojis.count {
+//                 cardCount += 1
+//             }
+//         }, label: {
+//             Image(systemName: "rectangle.stack.badge.plus.fill")
+//         })
+//         .imageScale(.large)
+//         .font(.largeTitle)
+         
+         // use the custom constructor function
+         cardCountAdjuster(by: 1, symbol: "rectangle.stack.badge.plus.fill")
+     }
+     
+     // As cardAdder & cardRemover are similar elements - can dynamically construct as a function:
+     func cardCountAdjuster(by offset: Int, symbol: String) -> some View {      // n.b. returns a view
+         // by = external parameter name
+         // offset = internal parameter name
+         Button(action: {
+             cardCount += offset
+         }, label: {
+             Image(systemName: symbol)
+         })
+         .imageScale(.large)
+         .font(.largeTitle)
+         .disabled(cardCount+offset < 1 || cardCount+offset > emojis.count)
+         // separate view modifier for protections
      }
  }
 
@@ -76,15 +152,17 @@ import SwiftUI
              // can create a constant from types
              let base = RoundedRectangle(cornerRadius: 12) // use TYPE INFERENCE
              // equivalent to - let base: RoundedRectangle = RoundedRectangle(cornerRadius: 12)
+             // BASE is back of card
              
-             if isFaceUp {
+             // Group is a bag of lego to apply view modifiers to all - FRONT OF CARD
+             Group {
                  base.foregroundColor(.white)
                  base.strokeBorder(lineWidth: 2)
                  Text(content)
                      .font(.largeTitle)
-             } else {
-                 base
              }
+             .opacity(isFaceUp ? 1 : 0)
+             base.fill().opacity(isFaceUp ? 0 : 1)
          }
          // add a view modifier for when card is tapped - TRAILING CLOSURE SYNTAX
          .onTapGesture {
