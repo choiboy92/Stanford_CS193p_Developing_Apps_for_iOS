@@ -34,8 +34,8 @@ import SwiftUI
      let emojiThemes: [String: [String]] = ["halloween": ["👻", "🎃", "🕷️", "👹", "😈", "💀", "🧙", "🙀", "😱", "☠️", "🍭"],
                                             "christmas": ["🎄", "🎅", "🎁", "🎉", "🏡", "🌟"],
                                             "sports": ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏓", "🏸"]]
-     @State var emojis: [String] = ["👻", "🎃", "🕷️", "👹", "😈", "💀", "🧙", "🙀", "😱", "☠️", "🍭"]
-     @State var cardCount: Int = 4
+     @State var emojis: [String] = []
+     @State var cardCount: Int = 6
      
      var body: some View {
          VStack{
@@ -43,9 +43,17 @@ import SwiftUI
                  .font(.largeTitle)
                  .fontWeight(.bold)
              Spacer()
-             ScrollView {
-                 cards
+             if emojis.isEmpty {
+                 Text("Select a theme")
+                     .font(.subheadline)
+                     .italic()
              }
+             else {
+                 ScrollView {
+                     cards
+                 }
+             }
+             
               Spacer()
              // cardCountAdjusters
              themeSelector
@@ -56,9 +64,10 @@ import SwiftUI
      
      // separate out elements to their own "some View"
      var cards: some View {
-         LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
+         
+         LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
              // iterable view constructor
-             ForEach(0..<cardCount, id: \.self) { index in
+             ForEach(0..<emojis.count, id: \.self) { index in
                  CardView(content: emojis[index])
                      .aspectRatio(2/3, contentMode: .fit)
              }
@@ -129,25 +138,30 @@ import SwiftUI
          // separate view modifier for protections
      }
      
-     func selectCardSet(theme: String) -> some View {
+     func selectCardSet(theme: String, logo: String) -> some View {
          Button(action: {
-             emojis = emojiThemes[theme]!
+             emojis = emojiThemes[theme]! + emojiThemes[theme]!
+             emojis = emojis.shuffled()
          }, label: {
-             Text(theme)
+             VStack {
+                 Image(systemName: logo)
+                 Text(theme)
+             }
          })
+         .imageScale(.large)
          .font(.headline)
      }
      
      var themeHalloween: some View {
-         selectCardSet(theme: "halloween")
+         selectCardSet(theme: "halloween", logo: "fireworks")
      }
      
      var themeChristmas: some View {
-         selectCardSet(theme: "christmas")
+         selectCardSet(theme: "christmas", logo: "snowflake")
      }
      
      var themeSports: some View {
-         selectCardSet(theme: "sports")
+         selectCardSet(theme: "sports", logo: "figure.handball")
      }
      
      var themeSelector: some View {
