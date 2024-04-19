@@ -31,16 +31,25 @@ import SwiftUI
 
 
  struct ContentView: View {
-     let emojis: [String] = ["👻", "🎃", "🕷️", "👹", "😈", "💀", "🧙", "🙀", "😱", "☠️", "🍭"]
+     let emojiThemes: [String: [String]] = ["halloween": ["👻", "🎃", "🕷️", "👹", "😈", "💀", "🧙", "🙀", "😱", "☠️", "🍭"],
+                                            "christmas": ["🎄", "🎅", "🎁", "🎉", "🏡", "🌟"],
+                                            "sports": ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏓", "🏸"]]
+     @State var emojis: [String] = ["👻", "🎃", "🕷️", "👹", "😈", "💀", "🧙", "🙀", "😱", "☠️", "🍭"]
      @State var cardCount: Int = 4
      
      var body: some View {
          VStack{
+             Text("Memorize!")
+                 .font(.largeTitle)
+                 .fontWeight(.bold)
+             Spacer()
              ScrollView {
                  cards
              }
-             Spacer()
-             cardCountAdjusters
+              Spacer()
+             // cardCountAdjusters
+             themeSelector
+
          }
          .padding()  // view modifier - scopes to elements inside the view
      }
@@ -118,6 +127,37 @@ import SwiftUI
          .font(.largeTitle)
          .disabled(cardCount+offset < 1 || cardCount+offset > emojis.count)
          // separate view modifier for protections
+     }
+     
+     func selectCardSet(theme: String) -> some View {
+         Button(action: {
+             emojis = emojiThemes[theme]!
+         }, label: {
+             Text(theme)
+         })
+         .font(.headline)
+     }
+     
+     var themeHalloween: some View {
+         selectCardSet(theme: "halloween")
+     }
+     
+     var themeChristmas: some View {
+         selectCardSet(theme: "christmas")
+     }
+     
+     var themeSports: some View {
+         selectCardSet(theme: "sports")
+     }
+     
+     var themeSelector: some View {
+         HStack {
+             themeHalloween
+             Spacer()
+             themeChristmas
+             Spacer()
+             themeSports
+         }
      }
  }
 
