@@ -31,23 +31,31 @@ import SwiftUI
 
 
  struct ContentView: View {
+     let emojis: [String] = ["👻", "🎃", "🕷️", "👹"]
+     
      var body: some View {
          HStack {
-             CardView(isFaceUp: true)
-             CardView()
-             CardView()
-             CardView()
+             // iterable view constructor
+             ForEach(emojis.indices, id: \.self) { index in
+                 CardView(content: emojis[index])
+             }
          }
+         .foregroundColor(.orange)
          .padding()  // view modifier - scopes to elements inside the view
      }
  }
 
  // Build a custom view element
  struct CardView: View {
+     // Structs have default property initialisers
+     
+     let content: String
+     
      // needs to be a var as we want it to change
      // var isFaceUp: Bool = false     // stored property needs a value when called
      @State var isFaceUp = false    // STATE - creates a pointer to this variable for temporary state
      // will get rid of @State when implementing game logic in backend
+     
 
      var body: some View {
          /*
@@ -72,7 +80,7 @@ import SwiftUI
              if isFaceUp {
                  base.foregroundColor(.white)
                  base.strokeBorder(lineWidth: 2)
-                 Text("👻")
+                 Text(content)
                      .font(.largeTitle)
              } else {
                  base
