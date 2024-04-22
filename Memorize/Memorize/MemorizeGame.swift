@@ -41,10 +41,16 @@ struct MemoryGame<CardContent> {
         
     }
     
+    // create a mutating func to shuffle - specifies it to copy on write when this is called
+    mutating func shuffle() {
+        cards.shuffle()
+        print(cards)
+    }
+    
     // sublevel struct - MemoryGame.Card
     // no <CardContent> here - would need to specify each time Card is used
     struct Card {
-        var isFaceUp = false
+        var isFaceUp = true
         var isMatched = false
         let content: CardContent    // card content wont change during the game
     }

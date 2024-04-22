@@ -32,12 +32,13 @@ import SwiftUI
 
  struct EmojiMemoryGameView: View {
      // initialise the ViewModel - view reacts to changes in viewModel
-     var viewModel: EmojiMemoryGame
+     var viewModel: EmojiMemoryGame  = EmojiMemoryGame()
+     // TODO: Correctly set viewModel, above is not the way to do it - will learn later
      
-     let emojiThemes: [String: [String]] = ["halloween": ["👻", "🎃", "🕷️", "👹", "😈", "💀", "🧙", "🙀", "😱", "☠️", "🍭"],
-                                            "christmas": ["🎄", "🎅", "🎁", "🎉", "🏡", "🌟"],
-                                            "sports": ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏓", "🏸"]]
-     @State var emojis: [String] = []
+//     let emojiThemes: [String: [String]] = ["halloween": ["👻", "🎃", "🕷️", "👹", "😈", "💀", "🧙", "🙀", "😱", "☠️", "🍭"],
+//                                            "christmas": ["🎄", "🎅", "🎁", "🎉", "🏡", "🌟"],
+//                                            "sports": ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏓", "🏸"]]
+//     @State var emojis: [String] = []
      @State var cardCount: Int = 6
      
      var body: some View {
@@ -46,20 +47,16 @@ import SwiftUI
                  .font(.largeTitle)
                  .fontWeight(.bold)
              Spacer()
-             if emojis.isEmpty {
-                 Text("Select a theme")
-                     .font(.subheadline)
-                     .italic()
+             ScrollView {
+                 cards
              }
-             else {
-                 ScrollView {
-                     cards
-                 }
+             Button("Shuffle") {
+                 viewModel.shuffle()    // user intent - shuffle
              }
              
               Spacer()
              // cardCountAdjusters
-             themeSelector
+             // themeSelector
 
          }
          .padding()  // view modifier - scopes to elements inside the view
@@ -68,11 +65,12 @@ import SwiftUI
      // separate out elements to their own "some View"
      var cards: some View {
          
-         LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+         LazyVGrid(columns: [GridItem(.adaptive(minimum: 85), spacing: 0)], spacing: 0) {
              // iterable view constructor
-             ForEach(0..<emojis.count, id: \.self) { index in
-                 CardView(content: emojis[index])
+             ForEach(0..<viewModel.cards.count, id: \.self) { index in
+                 CardView(viewModel.cards[index])   // use custom init in cardview to specify no external name
                      .aspectRatio(2/3, contentMode: .fit)
+                     .padding(4)
              }
          }
          .foregroundColor(.orange)
@@ -137,10 +135,10 @@ import SwiftUI
          })
          .imageScale(.large)
          .font(.largeTitle)
-         .disabled(cardCount+offset < 1 || cardCount+offset > emojis.count)
+         .disabled(cardCount+offset < 1 || cardCount+offset > viewModel.cards.count)
          // separate view modifier for protections
      }
-     
+     /*
      func selectCardSet(theme: String, logo: String) -> some View {
          Button(action: {
              emojis = emojiThemes[theme]! + emojiThemes[theme]!
@@ -176,19 +174,25 @@ import SwiftUI
              themeSports
          }
      }
+     */
  }
 
  // Build a custom view element
  struct CardView: View {
      // Structs have default property initialisers
      
-     let content: String
+//     let content: String
+     
+     let card: MemoryGame<String>.Card
      
      // needs to be a var as we want it to change
      // var isFaceUp: Bool = false     // stored property needs a value when called
-     @State var isFaceUp = false    // STATE - creates a pointer to this variable for temporary state
+     // @State var isFaceUp = false    // STATE - creates a pointer to this variable for temporary state
      // will get rid of @State when implementing game logic in backend
      
+     init(_ card: MemoryGame<String>.Card) {
+         self.card = card
+     }
 
      var body: some View {
          /*
@@ -215,16 +219,13 @@ import SwiftUI
              Group {
                  base.foregroundColor(.white)
                  base.strokeBorder(lineWidth: 2)
-                 Text(content)
-                     .font(.largeTitle)
+                 Text(card.content)
+                     .font(.system(size: 200))
+                     .minimumScaleFactor(0.01)      // enable text to scale down to 1/100 of its size
+                     .aspectRatio(1, contentMode: .fit)     // expand to fit the parent size (in this case the card)
              }
-             .opacity(isFaceUp ? 1 : 0)
-             base.fill().opacity(isFaceUp ? 0 : 1)
-         }
-         // add a view modifier for when card is tapped - TRAILING CLOSURE SYNTAX
-         .onTapGesture {
-             // print("tapped") // print to console
-             isFaceUp.toggle()   // used @State for variable to enable it to be changed (temporarily)
+             .opacity(card.isFaceUp ? 1 : 0)
+             base.fill().opacity(card.isFaceUp ? 0 : 1)
          }
      }
  }
