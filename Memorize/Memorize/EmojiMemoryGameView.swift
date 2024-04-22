@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  EmojiMemoryGameView.swift
 //  Memorize
 //
 //  Created by Junho Choi on 19/04/2024.
@@ -10,7 +10,7 @@ import SwiftUI
 
 // ContentView [behaves like] View - a protocol
  // different to Int or String
- //struct ContentView: View {
+ //struct EmojiMemoryGameView: View {
  //    // computed property
  //    var body: some View {
  //        // some View = can run anything as long as it returns a type view
@@ -26,11 +26,14 @@ import SwiftUI
  //}
  //
  //#Preview {
- //    ContentView()
+ //    EmojiMemoryGameView()
  //}
 
 
- struct ContentView: View {
+ struct EmojiMemoryGameView: View {
+     // initialise the ViewModel - view reacts to changes in viewModel
+     var viewModel: EmojiMemoryGame
+     
      let emojiThemes: [String: [String]] = ["halloween": ["👻", "🎃", "🕷️", "👹", "😈", "💀", "🧙", "🙀", "😱", "☠️", "🍭"],
                                             "christmas": ["🎄", "🎅", "🎁", "🎉", "🏡", "🌟"],
                                             "sports": ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏓", "🏸"]]
@@ -226,6 +229,8 @@ import SwiftUI
      }
  }
 
-#Preview {
-    ContentView()
+struct EmojiMemoryGameView_Previews: PreviewProvider {
+    static var previews: some View {
+        EmojiMemoryGameView()
+    }
 }
