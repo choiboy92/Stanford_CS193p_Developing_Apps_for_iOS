@@ -19,8 +19,7 @@ func createCardContent(forPairAtIndex index: Int) -> String {
 
 
 // Talks to View & Model -> needs variables for Model & View
-class EmojiMemoryGame {
-    
+class EmojiMemoryGame: ObservableObject {   // use ReactiveUI ObservableObject protocol
     
     // partial separation - there is nothing stopping the View from talking directly to model via viewModel.model:
     /*
@@ -63,8 +62,9 @@ class EmojiMemoryGame {
             }
         }
     }
-    private var model = createMemoryGame()  // call the private static (global) function that creates a memory game
     
+    @Published private var model = createMemoryGame()  // call the private static (global) function that creates a memory game
+    // REACTIVE UI if this var changes, it will say something changed!
     
     // Therefore, would need to make accessible to View only the things it needs
     // Almost a layer of access control

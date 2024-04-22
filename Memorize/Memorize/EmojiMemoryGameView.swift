@@ -32,8 +32,10 @@ import SwiftUI
 
  struct EmojiMemoryGameView: View {
      // initialise the ViewModel - view reacts to changes in viewModel
-     var viewModel: EmojiMemoryGame  = EmojiMemoryGame()
-     // TODO: Correctly set viewModel, above is not the way to do it - will learn later
+     @ObservedObject var viewModel: EmojiMemoryGame
+     // REACTIVE UI - if this says something changed, redraw me!
+     // dont set "=" to anything - the view should watch for changes to an object that exists independently of the view
+     // if value is set, it implies that the view should observe changes to a specific instance of an object
      
 //     let emojiThemes: [String: [String]] = ["halloween": ["👻", "🎃", "🕷️", "👹", "😈", "💀", "🧙", "🙀", "😱", "☠️", "🍭"],
 //                                            "christmas": ["🎄", "🎅", "🎁", "🎉", "🏡", "🌟"],
@@ -232,6 +234,6 @@ import SwiftUI
 
 struct EmojiMemoryGameView_Previews: PreviewProvider {
     static var previews: some View {
-        EmojiMemoryGameView()
+        EmojiMemoryGameView(viewModel: EmojiMemoryGame())
     }
 }
