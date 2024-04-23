@@ -31,16 +31,22 @@ import SwiftUI
 
 
  struct EmojiMemoryGameView: View {
-     // initialise the ViewModel - view reacts to changes in viewModel
+     //initialise the ViewModel - view reacts to changes in viewModel
      @ObservedObject var viewModel: EmojiMemoryGame
-     // REACTIVE UI - if this says something changed, redraw me!
-     // dont set "=" to anything - the view should watch for changes to an object that exists independently of the view
-     // if value is set, it implies that the view should observe changes to a specific instance of an object
+     /*
+        REACTIVE UI - if this says something changed, redraw me!
+        dont set "=" to anything - the view should watch for changes to an object that exists independently of the view
+        if value is set, it implies that the view should observe changes to a specific instance of an object
+        lifetime of it is determined by the lifetime of the object passed into it i.e. @StateObject
+      */
      
-//     let emojiThemes: [String: [String]] = ["halloween": ["👻", "🎃", "🕷️", "👹", "😈", "💀", "🧙", "🙀", "😱", "☠️", "🍭"],
-//                                            "christmas": ["🎄", "🎅", "🎁", "🎉", "🏡", "🌟"],
-//                                            "sports": ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏓", "🏸"]]
-//     @State var emojis: [String] = []
+     /*
+     let emojiThemes: [String: [String]] = ["halloween": ["👻", "🎃", "🕷️", "👹", "😈", "💀", "🧙", "🙀", "😱", "☠️", "🍭"],
+                                            "christmas": ["🎄", "🎅", "🎁", "🎉", "🏡", "🌟"],
+                                            "sports": ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏓", "🏸"]]
+     @State var emojis: [String] = []
+     */
+     
      @State var cardCount: Int = 6
      
      var body: some View {
@@ -51,6 +57,12 @@ import SwiftUI
              Spacer()
              ScrollView {
                  cards
+                     .animation(.default, value: viewModel.cards)   // value - only animate if that value changes
+                     /*
+                      Referencing instance method 'animation(_:value:)' on 'Array' requires that 'MemoryGame<String>.Card' conform to 'Equatable'
+                      Animation works by trying to see if one version of the value is different to a new version by equating them
+                      Needs to conform to Equatable - protocol 
+                      */
              }
              Button("Shuffle") {
                  viewModel.shuffle()    // user intent - shuffle
@@ -69,10 +81,30 @@ import SwiftUI
          
          LazyVGrid(columns: [GridItem(.adaptive(minimum: 85), spacing: 0)], spacing: 0) {
              // iterable view constructor
-             ForEach(0..<viewModel.cards.count, id: \.self) { index in
-                 CardView(viewModel.cards[index])   // use custom init in cardview to specify no external name
+             /*
+              ForEach(0..<viewModel.cards.count, id: \.self) { index in
+                  CardView(viewModel.cards[index])   // use custom init in cardview to specify no external name
+                      .aspectRatio(2/3, contentMode: .fit)
+                      .padding(4)
+              }
+    
+                forEach over indices of the array - it creates a view of the array
+                if array is shuffled, from forEach perspective, it still is showing the original array list
+                only now, because of the change, it overlays with a new view
+              
+                NEEDS to be edited to create a view based on the cards themselves rather than the array
+              
+                forEach now uses the cards, but needs the cards to conform to Identifiable (i.e. how do we know the 1st Pumpkin is moved rather than 2nd Pumpkin)
+                FIX: go back to MemoryGame and make cards conform to Identifiable by adding an additional id variable
+              */
+             
+             ForEach(viewModel.cards) { card in
+                 CardView(card)   // use custom init in cardview to specify no external name
                      .aspectRatio(2/3, contentMode: .fit)
                      .padding(4)
+                     .onTapGesture {
+                         viewModel.choose(card)
+                     }
              }
          }
          .foregroundColor(.orange)
