@@ -261,6 +261,7 @@ import SwiftUI
              .opacity(card.isFaceUp ? 1 : 0)
              base.fill().opacity(card.isFaceUp ? 0 : 1)
          }
+         .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)   // fade out cards that have been matched
      }
  }
 
