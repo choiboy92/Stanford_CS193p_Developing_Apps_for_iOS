@@ -55,6 +55,9 @@ import SwiftUI
                  .font(.largeTitle)
                  .fontWeight(.bold)
              Spacer()
+             Text("\(viewModel.currentTheme.name)")
+                 .font(.title3)
+             Spacer()
              ScrollView {
                  cards
                      .animation(.default, value: viewModel.cards)   // value - only animate if that value changes
@@ -64,14 +67,22 @@ import SwiftUI
                       Needs to conform to Equatable - protocol 
                       */
              }
-             Button("Shuffle") {
-                 viewModel.shuffle()    // user intent - shuffle
+             HStack {
+                 Button("New Game") {
+                     // viewModel.shuffle()    // user intent - shuffle
+                     viewModel.new_game()
+                 }
+                 Spacer()
+                 Text("Score: ")
+                     .font(.title3)
+                 Spacer()
+                 Button("Shuffle") {
+                     viewModel.shuffle()    // user intent - shuffle
+                 }
              }
-             
               Spacer()
              // cardCountAdjusters
              // themeSelector
-
          }
          .padding()  // view modifier - scopes to elements inside the view
      }
@@ -107,7 +118,7 @@ import SwiftUI
                      }
              }
          }
-         .foregroundColor(.orange)
+         .foregroundColor(viewModel.themeColor)
      }
      
      var cardCountAdjusters: some View {
