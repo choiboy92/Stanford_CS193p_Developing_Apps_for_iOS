@@ -82,7 +82,13 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
              */
             // iterate over indices of cards array and for each index ($0 is current index being iterated over),
             // checks if that index = newValue -> if yes the condition returns a true, setting that as the card's faceup condition
-            return cards.indices.forEach { cards[$0].isFaceUp = (newValue == $0) }  // trailing closure
+            return cards.indices.forEach {
+                let wasFaceUp = cards[$0].isFaceUp  // store old value if faceUp was true
+                cards[$0].isFaceUp = (newValue == $0)
+                if wasFaceUp && !cards[$0].isFaceUp {   // check if wasFaceUp true AND currently face is down (i.e. flipped down)
+                    cards[$0].seen = true       // set seen for that individual ID'd card as true
+                }
+            }  // trailing closure
             
         }
     }
@@ -102,10 +108,16 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                     if cards[chosenIndex].content == cards[potentialMatchIndex].content {
                         cards[chosenIndex].isMatched = true
                         cards[potentialMatchIndex].isMatched = true
+                        score += 2
                     }
                     // indexOfTheOneAndOnlyFaceUpCard = nil    // either matched already or no pair
                     // can get rid of above with the new compputed property of indexOfTheOneAndOnlyFaceUpCard
                     // we know
+                    else {  // IF NO MATCH AFTER 2 cards have been turned face up
+                        cards[chosenIndex].seen ? score-=1 : nil
+                        cards[potentialMatchIndex].seen ? score-=1 : nil
+                        
+                    }
                 } else {    // if no card is turned up (i.e. indexOfTheOneAndOnlyFaceUpCard optional is nil)
                     /*
                      // turn all the other cards face down & turn the chosenIndex card face up
@@ -140,6 +152,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         print(cards)
     }
     
+    private(set) var score: Int = 0
+    
     // sublevel struct - MemoryGame.Card
     // no <CardContent> here - would need to specify each time Card is used
     struct Card: Equatable, Identifiable, CustomDebugStringConvertible {
@@ -162,6 +176,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         
         var isFaceUp = false
         var isMatched = false
+        var seen = false
         let content: CardContent    // card content wont change during the game
         
         var id: String    // ObjectIdentifier used to conform to identifiable protocol - it is essentially an idontcare, we replace with string
@@ -170,7 +185,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         // allows us to customise how the card is printed in the console for debug purposes
         // i.e. like logging
         var debugDescription: String {
-            "\(id): \(content) \(isFaceUp ? "up" : "down") \(isMatched ? "matched":"")"
+            "\(id): \(content) \(isFaceUp ? "up" : "down") \(isMatched ? "matched":""), \(seen ? "seen":"not yet seen")"
         }
     }
 }

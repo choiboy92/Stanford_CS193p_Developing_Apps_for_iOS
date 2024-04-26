@@ -73,7 +73,7 @@ import SwiftUI
                      viewModel.new_game()
                  }
                  Spacer()
-                 Text("Score: ")
+                 Text("Score: \(viewModel.score)")
                      .font(.title3)
                  Spacer()
                  Button("Shuffle") {

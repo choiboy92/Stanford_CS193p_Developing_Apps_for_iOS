@@ -84,6 +84,7 @@ class EmojiMemoryGame: ObservableObject {   // use ReactiveUI ObservableObject p
         return model.cards
     }
     
+    // Computed values AFTER INTERPRETING THE MODEL
     var themeColor: Color {
         // currentTheme.colorName
         switch currentTheme.colorName {
@@ -102,6 +103,10 @@ class EmojiMemoryGame: ObservableObject {   // use ReactiveUI ObservableObject p
         default:
             return Color.black
         }
+    }
+    
+    var score: Int {
+        model.score
     }
     
     
