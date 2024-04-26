@@ -50,10 +50,11 @@ class EmojiMemoryGame: ObservableObject {   // use ReactiveUI ObservableObject p
     */
     
     // STATIC VAR & FUNC - Make it global but namespace it inside my class + Private it
-    private static let emojis = ["👻", "🎃", "🕷️", "👹", "😈", "💀", "🧙", "🙀", "😱", "☠️", "🍭"]     // making it global (within the class) ensures its initialised first
+    // private static let emojis = ["👻", "🎃", "🕷️", "👹", "😈", "💀", "🧙", "🙀", "😱", "☠️", "🍭"]     // making it global (within the class) ensures its initialised first
     // Can also do for functions - need to make PRIVATE & STATIC so that MemoryGame is initialised before I set as the model variable
-    private static func createMemoryGame() -> MemoryGame<String> {     // specify return type - N.B. RETURN TYPE CANNOT BE INFERRED
-        return MemoryGame(numberOfPairsOfCards: 6) { pairIndex in      // pairIndex can be replaced with $0 = first argument
+    private static func createMemoryGame(with theme: EmojiThemes.Theme) -> MemoryGame<String> {     // specify return type - N.B. RETURN TYPE CANNOT BE INFERRED
+        let emojis = theme.emojis.shuffled()
+        return MemoryGame(numberOfPairsOfCards: theme.numberOfPairs) { pairIndex in      // pairIndex can be replaced with $0 = first argument
             // ensure the index exists in the array
             if emojis.indices.contains(pairIndex) {
                 return emojis[pairIndex]    // global private static var accessible in class scope
@@ -63,13 +64,49 @@ class EmojiMemoryGame: ObservableObject {   // use ReactiveUI ObservableObject p
         }
     }
     
-    @Published private var model = createMemoryGame()  // call the private static (global) function that creates a memory game
+    private static func setCurrentTheme() -> EmojiThemes.Theme {
+        return EmojiThemes().currentTheme!
+    }
+
+    // @Published private(set) var theme_model: EmojiThemes
+    private(set) var currentTheme: EmojiThemes.Theme
+    @Published private var model: MemoryGame<String>  // call the private static (global) function that creates a memory game
     // REACTIVE UI if this var changes, it will say something changed!
+    
+    init() {
+        currentTheme = EmojiMemoryGame.setCurrentTheme()
+        model = EmojiMemoryGame.createMemoryGame(with: currentTheme)
+    }
     
     // Therefore, would need to make accessible to View only the things it needs
     // Almost a layer of access control
     var cards: Array<MemoryGame<String>.Card> {
         return model.cards
+    }
+    
+    // Computed values AFTER INTERPRETING THE MODEL
+    var themeColor: Color {
+        // currentTheme.colorName
+        switch currentTheme.colorName {
+        case "orange":
+            return Color.orange
+        case "red":
+            return Color.red
+        case "green":
+            return Color.green
+        case "yellow":
+            return Color.yellow
+        case "blue":
+            return Color.blue
+        case "indigo":
+            return Color.indigo
+        default:
+            return Color.black
+        }
+    }
+    
+    var score: Int {
+        model.score
     }
     
     
@@ -85,10 +122,10 @@ class EmojiMemoryGame: ObservableObject {   // use ReactiveUI ObservableObject p
         model.shuffle()
     }
     
-    
-    
-    
-    
+    func new_game() {
+        currentTheme = EmojiMemoryGame.setCurrentTheme()
+        model = EmojiMemoryGame.createMemoryGame(with: currentTheme)
+    }
 }
 
 

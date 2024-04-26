@@ -139,3 +139,118 @@ operation(4)   // would return 16!
 Closures - equivalent to inline function types
 - i.e. passing a function as an inline type
 - used a lot
+
+## Lecture 4
+### `enum`
+This is another variety of data structure in addition to struct and class
+- value type - copy created
+- only discrete cases
+- data can be associated with each case
+
+```swift
+enum FastFoodMenuItem {
+	case hamburger(numberOfPatties: Int)  // set associated data for the hamburger case
+	case fries(size: FryOrderSize)        // specify another enum as the type
+	case drink(String, ounces: Int)       // unnamed string is the brand
+	case cookie
+	// can have METHODS & COMPUTED PROPERTIES (but not stored)
+	func isIncludedInSpecialOrder(number: Int) -> Bool { }
+	var calories: Int {
+		//switch on self and calculate caloric value here
+		switch self {
+			case .hamburger(let pattyCount): return pattyCount == number
+			case .fries, .cookie: return true
+			case .drink(_, let ounces): return ounces == 16
+		}
+	}
+}
+
+enum FryOrderSize {
+	case large
+	case small
+}
+
+// SETTING VALUE OF ENUM
+// can infer type on one side of the assignment (but not both)
+let menuItem = FastFoodMenuItem.hamburger(patties: 2)
+var otherItem: FastFoodMenuItem = .cookie
+
+// CHECKING STATE OF ENUM
+// access using let
+let menuItem = FastFoodMenuItem.hamburger(patties: 2)
+switch menuItem {
+	case .hamburger: print("burger")     // swift can infer 
+	case .fries: break          // when you dont want to do anything
+	// access associated data
+	case .drink(let brand, let ounces): print("\(brand) drink of \(ounces)oz") // "a coke drink of 32oz"
+	case .cookie: print("cookie")
+	default: print("other")     // cover all of the other cases
+}
+
+// GET ALL CASES OF ENUM
+enum TeslaModel: CaseIterable {
+	case X
+	case S
+	case Three
+	case Y
+}
+// now enum has static var "allCases" for iteration
+for model in TeslaModel.allCases {
+	reportSaleNumbers(for: model)
+}
+func reportSalesNumbers(for model: TeslaModel) {
+	switch model { ... }
+}
+```
+
+### Optionals
+An Optional is just an enum:
+```swift
+// Used whenever a value can either be "not set" or "unspecified"
+enum Optional<T> {    // T is a generic type - i.e. idontcare
+	case none         // NOT SET
+	case some(T)      // the some case has associated value of type T - IS SET
+}
+```
+
+Declaring an optional:
+```swift
+// Declaring something of type Optional can be done with syntax T?
+var hello: String? = "hello"
+// equiv.
+var hello: Optional<String> = .some("hello")
+// OR
+var hello = Optional.some("hello")
+```
+
+Accessing the associated Optional data:
+```swift
+// FORCE UNWRAPPING - you assume its not nil, and grab the value
+print(hello!)
+// equiv
+switch hello {
+	case .none: // raise an exception (crash)
+	case .some(let data): print(data)    // access associated data
+}
+
+// SAFE UNWRAPPING - using if let
+if let safehello = hello {
+	print(safehello)
+} else {
+	// do something else
+}
+// equiv.
+switch hello {
+	case .none: { // do something else }
+	case .some(let safehello): print(safehello)
+}
+
+// also OPTIONAL DEFAULTING - nil coalescing operator
+let x: String? = ...
+let y = x ?? "foo"  // set y=x if not nil, if nil y="foo"
+// equiv.
+switch x {
+	case .none: { y = "foo" }
+	case .some(let data): y = data
+}
+```
