@@ -290,3 +290,34 @@ HStack(alignment: .firstTextBaseling) { ... }     // text baseline alignmnent
 
 ![](images/layout10.png)
 
+### @ViewBuilder
+way to allow a list of views with conditionals and 'let's
+- simple mechanism for supporting more convenient syntax for **lists of Views**
+- lots of times we have 'bag of lego views' - ViewBuilder allows us to pass these around
+- function still returns something that conforms to View BUT will do so by interpreting the contents as a list of Views and combines them into one
+- View that is returned from ViewBuilder can be:
+	- `TupleView` - for two or more views
+	- `_ConditionalContent` View - when if-else is there
+	- `EmptyView` - if there's nothing at all there (weird but possible)
+	- Any combination of the above ( if's inside other if's)
+- In the end, we dont care what it creates as `some View` sets it up for us
+
+Any func OR read-only computed var can be marked with `@ViewBuilder`:
+```swift
+//EXAMPLE
+@ViewBuilder
+func front(of card: Card) -> some View {
+	// not legal syntax for a function - just a list of Views
+	// if it were a function, it expects a specific return
+	let shape = RoundedRectangle(cornerRadius: 20)
+	shape.fill(.white)
+	shape.stroke()
+	Text(card.content)
+}
+// would return a TupleView<RoundedRectangle,RoundedRectangle,Text>
+```
+
+Can also mark a parameter of a function OR an init - argument type must be a "function that returns a view"
+- can create our own combiner view (to understand how HStack or LazyVGrid takes it's args)
+
+

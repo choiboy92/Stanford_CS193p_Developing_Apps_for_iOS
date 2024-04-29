@@ -88,7 +88,7 @@ import SwiftUI
          .padding()  // view modifier - scopes to elements inside the view
      }
      
-     
+     /*
      // separate out elements to their own "some View"
      @ViewBuilder   // var cards is a regular function - we turn it into a ViewBuilder
      // n.b. var body - view protocol is implicit with var body
@@ -176,6 +176,26 @@ import SwiftUI
          // 1. the width of the
          // 2. the height that the LazyVGrid was offered -> maximum width
          return min(size.width/count, size.height*aspectRatio).rounded(.down)
+     }
+     */
+     
+     /*
+      NEW VAR CARD USING ASPECTVGRID (OUR CUSTOM VIEW )
+      
+      n.b. don't need @ViewBuilder - it returns a single view and acts as a normal function
+      BUT we want AspectVGrid to be able to act like @ViewBuilder
+      e.g. we may if-else in our content function
+      */
+     private var cards: some View {
+         AspectVGrid(items: viewModel.cards, aspectRatio: aspectRatio) { card in
+             CardView(card)
+                 // .aspectRatio(aspectRatio, contentMode: .fit)    // enforced in AspectVgrid
+                 .padding(4)
+                 .onTapGesture {
+                     viewModel.choose(card)
+                 }
+         }
+         .foregroundColor(viewModel.themeColor)
      }
      
      var cardCountAdjusters: some View {
