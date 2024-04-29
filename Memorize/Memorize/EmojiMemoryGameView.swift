@@ -48,6 +48,7 @@ import SwiftUI
      */
      
      @State var cardCount: Int = 6
+     private let aspectRatio: CGFloat = 2/3
      
      var body: some View {
          VStack{
@@ -58,15 +59,15 @@ import SwiftUI
              Text("\(viewModel.currentTheme.name)")
                  .font(.title3)
              Spacer()
-             ScrollView {
-                 cards
-                     .animation(.default, value: viewModel.cards)   // value - only animate if that value changes
-                     /*
-                      Referencing instance method 'animation(_:value:)' on 'Array' requires that 'MemoryGame<String>.Card' conform to 'Equatable'
-                      Animation works by trying to see if one version of the value is different to a new version by equating them
-                      Needs to conform to Equatable - protocol 
-                      */
-             }
+//             ScrollView {
+             cards
+                 .animation(.default, value: viewModel.cards)   // value - only animate if that value changes
+                 /*
+                  Referencing instance method 'animation(_:value:)' on 'Array' requires that 'MemoryGame<String>.Card' conform to 'Equatable'
+                  Animation works by trying to see if one version of the value is different to a new version by equating them
+                  Needs to conform to Equatable - protocol
+                  */
+//             }
              HStack {
                  Button("New Game") {
                      // viewModel.shuffle()    // user intent - shuffle
@@ -87,36 +88,112 @@ import SwiftUI
          .padding()  // view modifier - scopes to elements inside the view
      }
      
+     /*
      // separate out elements to their own "some View"
+     @ViewBuilder   // var cards is a regular function - we turn it into a ViewBuilder
+     // n.b. var body - view protocol is implicit with var body
      var cards: some View {
+         /*
+          spacing is platform dependent - then add padding after the fact for the individual cards
+          
+          can use .background as a way to see the area that the view takes up
+          
+          use geometry reader to remove scroll view and have cards adjust size so that all are shown
+          To do so, we need to calculate what width the cards should be - create a function for this
+          this uses the enum characteristic of geometry --> geometry.size
+          */
+        
          
-         LazyVGrid(columns: [GridItem(.adaptive(minimum: 85), spacing: 0)], spacing: 0) {
-             // iterable view constructor
-             /*
-              ForEach(0..<viewModel.cards.count, id: \.self) { index in
-                  CardView(viewModel.cards[index])   // use custom init in cardview to specify no external name
-                      .aspectRatio(2/3, contentMode: .fit)
-                      .padding(4)
-              }
-    
-                forEach over indices of the array - it creates a view of the array
-                if array is shuffled, from forEach perspective, it still is showing the original array list
-                only now, because of the change, it overlays with a new view
-              
-                NEEDS to be edited to create a view based on the cards themselves rather than the array
-              
-                forEach now uses the cards, but needs the cards to conform to Identifiable (i.e. how do we know the 1st Pumpkin is moved rather than 2nd Pumpkin)
-                FIX: go back to MemoryGame and make cards conform to Identifiable by adding an additional id variable
-              */
+         GeometryReader { geometry in
+             let gridItemSize = gridItemWidthThatFits(
+                count: viewModel.cards.count,
+                size: geometry.size,
+                atAspectRatio: aspectRatio
+             )
              
-             ForEach(viewModel.cards) { card in
-                 CardView(card)   // use custom init in cardview to specify no external name
-                     .aspectRatio(2/3, contentMode: .fit)
-                     .padding(4)
-                     .onTapGesture {
-                         viewModel.choose(card)
-                     }
+             LazyVGrid(columns: [GridItem(.adaptive(minimum: gridItemSize), spacing: 0)], spacing: 0) {
+                 // iterable view constructor
+                 /*
+                  ForEach(0..<viewModel.cards.count, id: \.self) { index in
+                  CardView(viewModel.cards[index])   // use custom init in cardview to specify no external name
+                  .aspectRatio(2/3, contentMode: .fit)
+                  .padding(4)
+                  }
+                  
+                  forEach over indices of the array - it creates a view of the array
+                  if array is shuffled, from forEach perspective, it still is showing the original array list
+                  only now, because of the change, it overlays with a new view
+                  
+                  NEEDS to be edited to create a view based on the cards themselves rather than the array
+                  
+                  forEach now uses the cards, but needs the cards to conform to Identifiable (i.e. how do we know the 1st Pumpkin is moved rather than 2nd Pumpkin)
+                  FIX: go back to MemoryGame and make cards conform to Identifiable by adding an additional id variable
+                  */
+                 
+                 ForEach(viewModel.cards) { card in
+                     CardView(card)   // use custom init in cardview to specify no external name
+                         .aspectRatio(aspectRatio, contentMode: .fit)
+                         .padding(4)
+                         .onTapGesture {
+                             viewModel.choose(card)
+                         }
+                 }
              }
+         }
+         .foregroundColor(viewModel.themeColor)
+         // .background(.red)
+         
+     }
+     
+     func gridItemWidthThatFits(
+        count: Int,
+        size: CGSize,
+        atAspectRatio aspectRatio: CGFloat
+     ) -> CGFloat { // CGFloat is the floats we use when drawing
+         // strategy -- try every type of column count till the cards fit vertically
+         var columnCount = 1.0 // turn into float so make it interoperable with CGFloat type
+         let count = CGFloat(count) // make a function scoped var that is of different type to the argument
+         // N.b. the function ver count IS NOT THE SAME AS the argument count passed in
+         
+         repeat {
+             let width = size.width / columnCount   // find width of each column for a certain number of columns
+             let height = width / aspectRatio       // find height required for that width
+             
+             // calculate number of rows required for a certain number of cards
+             let rowCount = (count / columnCount).rounded(.up)
+             
+             // if total height required by the cards is more than the size of the container cards
+             // then continue the loop by increasing the number of columns we are using
+             // but if height required by cards is less than the container height, we will use that number of columns
+             if rowCount * height < size.height {
+                 // round down just in case rounding up pushes our height over the limit (size.height)
+                 return (size.width / columnCount).rounded(.down)
+             }
+             columnCount += 1
+             
+         } while columnCount < count
+         // we want the card's width to be either:
+         // 1. the width of the
+         // 2. the height that the LazyVGrid was offered -> maximum width
+         return min(size.width/count, size.height*aspectRatio).rounded(.down)
+     }
+     */
+     
+     /*
+      NEW VAR CARD USING ASPECTVGRID (OUR CUSTOM VIEW )
+      
+      n.b. don't need @ViewBuilder - it returns a single view and acts as a normal function
+      BUT we want AspectVGrid to be able to act like @ViewBuilder
+      e.g. we may if-else in our content function
+      */
+     private var cards: some View {
+         AspectVGrid(items: viewModel.cards, aspectRatio: aspectRatio) { card in
+             CardView(card)
+                 // .aspectRatio(aspectRatio, contentMode: .fit)    // enforced in AspectVgrid
+                 .padding(4)
+                 .onTapGesture {
+                     viewModel.choose(card)
+                 }
          }
          .foregroundColor(viewModel.themeColor)
      }
