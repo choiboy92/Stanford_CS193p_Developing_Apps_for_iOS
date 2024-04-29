@@ -15,6 +15,7 @@
 		61B0A9F22BD29D9700F4A0FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61B0A9F12BD29D9700F4A0FE /* Assets.xcassets */; };
 		61B0A9F52BD29D9700F4A0FE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61B0A9F42BD29D9700F4A0FE /* Preview Assets.xcassets */; };
 		61E1ED8C2BDFB92D00B59727 /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E1ED8B2BDFB92D00B59727 /* AspectVGrid.swift */; };
+		61E1ED8E2BDFDBD000B59727 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E1ED8D2BDFDBD000B59727 /* CardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		61B0A9F12BD29D9700F4A0FE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		61B0A9F42BD29D9700F4A0FE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		61E1ED8B2BDFB92D00B59727 /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
+		61E1ED8D2BDFDBD000B59727 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 		61B0A9EC2BD29D9200F4A0FE /* Memorize */ = {
 			isa = PBXGroup;
 			children = (
+				61E1ED8D2BDFDBD000B59727 /* CardView.swift */,
 				61B0A9ED2BD29D9200F4A0FE /* MemorizeApp.swift */,
 				61B0A9EF2BD29D9200F4A0FE /* EmojiMemoryGameView.swift */,
 				61E1ED8B2BDFB92D00B59727 /* AspectVGrid.swift */,
@@ -149,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61E1ED8E2BDFDBD000B59727 /* CardView.swift in Sources */,
 				61B0A9F02BD29D9200F4A0FE /* EmojiMemoryGameView.swift in Sources */,
 				61B0A9EE2BD29D9200F4A0FE /* MemorizeApp.swift in Sources */,
 				61E1ED8C2BDFB92D00B59727 /* AspectVGrid.swift in Sources */,

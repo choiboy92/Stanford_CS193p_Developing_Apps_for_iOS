@@ -187,7 +187,7 @@ import SwiftUI
       e.g. we may if-else in our content function
       */
      private var cards: some View {
-         AspectVGrid(items: viewModel.cards, aspectRatio: aspectRatio) { card in
+         AspectVGrid(viewModel.cards, aspectRatio: aspectRatio) { card in
              CardView(card)
                  // .aspectRatio(aspectRatio, contentMode: .fit)    // enforced in AspectVgrid
                  .padding(4)
@@ -299,60 +299,7 @@ import SwiftUI
      */
  }
 
- // Build a custom view element
- struct CardView: View {
-     // Structs have default property initialisers
-     
-//     let content: String
-     
-     let card: MemoryGame<String>.Card
-     
-     // needs to be a var as we want it to change
-     // var isFaceUp: Bool = false     // stored property needs a value when called
-     // @State var isFaceUp = false    // STATE - creates a pointer to this variable for temporary state
-     // will get rid of @State when implementing game logic in backend
-     
-     init(_ card: MemoryGame<String>.Card) {
-         self.card = card
-     }
-
-     var body: some View {
-         /*
-         // PASSED A CLOSURE (A FUNCTION AS AN ARGUMENT)
-         ZStack(alignment: .top, content: {
-             RoundedRectangle(cornerRadius: 12)
-         }
-         // THEREFORE CAN REWRITE USING TRAILING CLOSURE SYNTAX:
-         ZStack(alignment: .top) {
-             RoundedRectangle(cornerRadius: 12)
-         }
-         // IF USING DEFAULT ARGUMENTS, CAN REMOVE PARENTHESES:
-         ZStack {
-             RoundedRectangle(cornerRadius: 12)
-         }
-         */
-         ZStack() {
-             // can create a constant from types
-             let base = RoundedRectangle(cornerRadius: 12) // use TYPE INFERENCE
-             // equivalent to - let base: RoundedRectangle = RoundedRectangle(cornerRadius: 12)
-             // BASE is back of card
-             
-             // Group is a bag of lego to apply view modifiers to all - FRONT OF CARD
-             Group {
-                 base.foregroundColor(.white)
-                 base.strokeBorder(lineWidth: 2)
-                 Text(card.content)
-                     .font(.system(size: 200))
-                     .minimumScaleFactor(0.01)      // enable text to scale down to 1/100 of its size
-                     .aspectRatio(1, contentMode: .fit)     // expand to fit the parent size (in this case the card)
-             }
-             .opacity(card.isFaceUp ? 1 : 0)
-             base.fill().opacity(card.isFaceUp ? 0 : 1)
-         }
-         .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)   // fade out cards that have been matched
-     }
- }
-
+ 
 struct EmojiMemoryGameView_Previews: PreviewProvider {
     static var previews: some View {
         EmojiMemoryGameView(viewModel: EmojiMemoryGame())

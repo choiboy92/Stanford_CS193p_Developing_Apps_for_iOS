@@ -20,6 +20,10 @@ func createCardContent(forPairAtIndex index: Int) -> String {
 
 // Talks to View & Model -> needs variables for Model & View
 class EmojiMemoryGame: ObservableObject {   // use ReactiveUI ObservableObject protocol
+    // an alias for a type - it is also namespaced so be aware of the scope
+    typealias Card = MemoryGame<String>.Card
+    
+    
     
     // partial separation - there is nothing stopping the View from talking directly to model via viewModel.model:
     /*
@@ -80,7 +84,7 @@ class EmojiMemoryGame: ObservableObject {   // use ReactiveUI ObservableObject p
     
     // Therefore, would need to make accessible to View only the things it needs
     // Almost a layer of access control
-    var cards: Array<MemoryGame<String>.Card> {
+    var cards: Array<Card> {
         return model.cards
     }
     
@@ -113,7 +117,7 @@ class EmojiMemoryGame: ObservableObject {   // use ReactiveUI ObservableObject p
     // MARK: - Intents
     // would also need to make any methods it requires to interact with the model, public
     // INTENT FUNCTION
-    func choose(_ card: MemoryGame<String>.Card) {
+    func choose(_ card: Card) {
         model.choose(card)
     }
     
