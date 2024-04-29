@@ -254,3 +254,39 @@ switch x {
 	case .some(let data): y = data
 }
 ```
+
+## Lecture 6
+### Layout - how does it work?
+e.g. HStack & VStack
+
+1. Container Views are offered some space
+2. Views choose what size they want to be - no way to force a size on them
+3. Container Views then position the Views inside of them - position is done by containers
+
+![](images/layout1.png)
+![](images/layout2.png)
+![](images/layout3.png)
+
+What about alignment - specify as an argument to the stack views:
+```swift
+VStack(alignment: .leading) { ... }   // leading as opposed to left - right to left texts like arabic or hebrew
+HStack(alignment: .firstTextBaseling) { ... }     // text baseline alignmnent
+
+// also custom ones but for now we will just cover the built-ins
+```
+
+![](images/layout4.png)
+- Grid equivalent to a spreadsheet view
+
+![](images/layout5.png)
+
+![](images/layout6.png)
+- two-man z stack with difference being the thing that controls the sizing
+
+![](images/layout7.png)
+![](images/layout8.png)
+![](images/layout9.png)
+- GeometryReader itself (it's just a View) - **ALWAYS ACCEPTS ALL THE SPACE OFFERED TO IT**
+
+![](images/layout10.png)
+
