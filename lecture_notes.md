@@ -320,4 +320,14 @@ func front(of card: Card) -> some View {
 Can also mark a parameter of a function OR an init - argument type must be a "function that returns a view"
 - can create our own combiner view (to understand how HStack or LazyVGrid takes it's args)
 
+## Lecture 7
+### Shapes
+Shape is a **PROTOCOL** - inherits from View
+- i.e. shapes are also views
+- Draw themselves by filling themselves by default
+	- .stroke()
+	- .fill() - a generic function![](images/shapes1.png)
+
+Creating our own Shape
+- ![](images/shapes2.png)
 

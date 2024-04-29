@@ -40,6 +40,10 @@ struct CardView: View {
             static let smallest: CGFloat = 10
             static let scaleFactor = smallest / largest
         }
+        struct Pie {
+            static let opacity: CGFloat = 0.5
+            static let inset: CGFloat = 5
+        }
     }
     
 
@@ -68,12 +72,24 @@ struct CardView: View {
             Group {
                 base.foregroundColor(.white)        // could put colors in a constant struct
                 base.strokeBorder(lineWidth: Constants.lineWidth)
-                Text(card.content)
-                    .font(.system(size: Constants.FontSize.largest))
-                    .minimumScaleFactor(Constants.FontSize.scaleFactor)      // enable text to scale down to 1/100 of its size
-                    .aspectRatio(1, contentMode: .fit)     // expand to fit the parent size (in this case the card)
-                    .multilineTextAlignment(.center)
-                    .padding(Constants.inset)
+                
+                /* // can initialise path inline
+                Path { p in
+                    p.move(to:.zero)
+                    p.addLine(to: CGPoint(x: 100, y: 100))
+                }
+                .stroke(lineWidth: 6)
+                 */
+                Pie(endAngle: .degrees(240))
+                    .opacity(Constants.Pie.opacity)
+                    .overlay(
+                        Text(card.content)
+                            .font(.system(size: Constants.FontSize.largest))
+                            .minimumScaleFactor(Constants.FontSize.scaleFactor)      // enable text to scale down to 1/100 of its size
+                            .aspectRatio(1, contentMode: .fit)     // expand to fit the parent size (in this case the card)
+                            .multilineTextAlignment(.center)
+                            .padding(Constants.Pie.inset)
+                )
             }
             .opacity(card.isFaceUp ? 1 : 0)
             base.fill().opacity(card.isFaceUp ? 0 : 1)
