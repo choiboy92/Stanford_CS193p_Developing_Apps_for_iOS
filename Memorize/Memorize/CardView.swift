@@ -25,6 +25,23 @@ struct CardView: View {
     init(_ card: Card) {
         self.card = card
     }
+    /*
+     ANYTHING BLUE IS A CONSTANT - PACKAGE AS A PRIVATE STRUCT
+     - do this to namespace them!
+     - ensures that they don't accidentally depend on something
+     - can have functions in them or have computed constants
+     */
+    private struct Constants {
+        static let cornerRadius: CGFloat = 12
+        static let lineWidth: CGFloat = 2
+        static let inset: CGFloat = 5
+        struct FontSize {
+            static let largest: CGFloat = 200
+            static let smallest: CGFloat = 10
+            static let scaleFactor = smallest / largest
+        }
+    }
+    
 
     var body: some View {
         /*
@@ -43,20 +60,20 @@ struct CardView: View {
         */
         ZStack() {
             // can create a constant from types
-            let base = RoundedRectangle(cornerRadius: 12) // use TYPE INFERENCE
+            let base = RoundedRectangle(cornerRadius: Constants.cornerRadius) // use TYPE INFERENCE
             // equivalent to - let base: RoundedRectangle = RoundedRectangle(cornerRadius: 12)
             // BASE is back of card
             
             // Group is a bag of lego to apply view modifiers to all - FRONT OF CARD
             Group {
-                base.foregroundColor(.white)
-                base.strokeBorder(lineWidth: 2)
+                base.foregroundColor(.white)        // could put colors in a constant struct
+                base.strokeBorder(lineWidth: Constants.lineWidth)
                 Text(card.content)
-                    .font(.system(size: 200))
-                    .minimumScaleFactor(0.01)      // enable text to scale down to 1/100 of its size
+                    .font(.system(size: Constants.FontSize.largest))
+                    .minimumScaleFactor(Constants.FontSize.scaleFactor)      // enable text to scale down to 1/100 of its size
                     .aspectRatio(1, contentMode: .fit)     // expand to fit the parent size (in this case the card)
                     .multilineTextAlignment(.center)
-                    .padding(5)
+                    .padding(Constants.inset)
             }
             .opacity(card.isFaceUp ? 1 : 0)
             base.fill().opacity(card.isFaceUp ? 0 : 1)

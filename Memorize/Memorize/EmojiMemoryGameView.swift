@@ -48,6 +48,9 @@ import SwiftUI
      */
      
      @State var cardCount: Int = 6
+     
+     // Blue numbers are CONSTANTS
+     private let spacing: CGFloat = 4
      private let aspectRatio: CGFloat = 2/3
      
      var body: some View {
