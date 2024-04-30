@@ -17,6 +17,7 @@
 		61E1ED8C2BDFB92D00B59727 /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E1ED8B2BDFB92D00B59727 /* AspectVGrid.swift */; };
 		61E1ED8E2BDFDBD000B59727 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E1ED8D2BDFDBD000B59727 /* CardView.swift */; };
 		61E1ED902BDFE7BA00B59727 /* Pie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E1ED8F2BDFE7BA00B59727 /* Pie.swift */; };
+		61E1ED922BDFF2EB00B59727 /* Cardify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E1ED912BDFF2EB00B59727 /* Cardify.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		61E1ED8B2BDFB92D00B59727 /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
 		61E1ED8D2BDFDBD000B59727 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		61E1ED8F2BDFE7BA00B59727 /* Pie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pie.swift; sourceTree = "<group>"; };
+		61E1ED912BDFF2EB00B59727 /* Cardify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Cardify.swift; path = Memorize/Cardify.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 		61B0A9E12BD29D9200F4A0FE = {
 			isa = PBXGroup;
 			children = (
+				61E1ED912BDFF2EB00B59727 /* Cardify.swift */,
 				61B0A9EC2BD29D9200F4A0FE /* Memorize */,
 				61B0A9EB2BD29D9200F4A0FE /* Products */,
 			);
@@ -158,6 +161,7 @@
 				61E1ED8E2BDFDBD000B59727 /* CardView.swift in Sources */,
 				61B0A9F02BD29D9200F4A0FE /* EmojiMemoryGameView.swift in Sources */,
 				61E1ED902BDFE7BA00B59727 /* Pie.swift in Sources */,
+				61E1ED922BDFF2EB00B59727 /* Cardify.swift in Sources */,
 				61B0A9EE2BD29D9200F4A0FE /* MemorizeApp.swift in Sources */,
 				61E1ED8C2BDFB92D00B59727 /* AspectVGrid.swift in Sources */,
 				6122308C2BDA8AEB005FB291 /* EmojiThemes.swift in Sources */,

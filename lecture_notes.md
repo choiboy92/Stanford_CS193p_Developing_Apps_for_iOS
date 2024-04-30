@@ -331,3 +331,13 @@ Shape is a **PROTOCOL** - inherits from View
 Creating our own Shape
 - ![](images/shapes2.png)
 
+### ViewModifier
+the little functions that modified our view (e.g. aspectRatio & padding) all call a function called **.modifier**
+- e.g `aspectRatio(2/3)` is equivalent to `.modifier(AspectModifier(2/3))` - where aspectModifier can be anything that conforms to the viewModifier protocol
+- ![](images/viewModifier1.png)
+	- the content argument - view that is being modified
+- we can implement custom viewModifiers - e.g. "cardify" - turns any view and makes into a card like in our Memorize game
+	- ![](images/viewModifier2.png)
+	- ![](images/viewModifier3.png)
+	- ![](images/viewModifier4.png)
+

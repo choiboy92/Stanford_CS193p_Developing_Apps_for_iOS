@@ -46,7 +46,7 @@ struct CardView: View {
         }
     }
     
-
+    /*
     var body: some View {
         /*
         // PASSED A CLOSURE (A FUNCTION AS AN ARGUMENT)
@@ -95,6 +95,24 @@ struct CardView: View {
             base.fill().opacity(card.isFaceUp ? 0 : 1)
         }
         .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)   // fade out cards that have been matched
+    }
+     */
+    
+    // USING OUR CUSTOM VIEW MODIFIER CARDIFY:
+    var body: some View {
+        Pie(endAngle: .degrees(240))
+            .opacity(Constants.Pie.opacity)
+            .overlay(
+                Text(card.content)
+                    .font(.system(size: Constants.FontSize.largest))
+                    .minimumScaleFactor(Constants.FontSize.scaleFactor)      // enable text to scale down to 1/100 of its size
+                    .aspectRatio(1, contentMode: .fit)     // expand to fit the parent size (in this case the card)
+                    .multilineTextAlignment(.center)
+                    .padding(Constants.Pie.inset)
+            )
+            .padding(Constants.inset)
+            .cardify(isFaceUp: card.isFaceUp)
+            .opacity(card.isFaceUp || !card.isMatched ? 1:0)
     }
 }
 
