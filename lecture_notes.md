@@ -341,3 +341,62 @@ the little functions that modified our view (e.g. aspectRatio & padding) all cal
 	- ![](images/viewModifier3.png)
 	- ![](images/viewModifier4.png)
 
+
+### `protocol` (part two)
+One of the most powerful uses is **CODE SHARING**
+- Implementation can be added to a protocol by creating an extension to it
+- e.g. Views get foregroundColor & font + modifiers
+- Can add new implementations & also default implementations
+
+```swift
+// EXAMPLE - View (conceptually)
+
+protocol View {
+	var body: some View
+}
+
+/*
+Above - CONSTRAINS something like CardView to have to provide that boyd
+
+Below - gives GAINS to CardView as a reward for doing so
+*/
+
+extension View {
+	func foregroundColor(_ color: Color) -> some View { /* implementation */ }
+	func font(_ font: Font?) -> some View { /* implementation */ }
+	func blur(radius: CGFloat, opaque: Bool) -> some View { /* implementation */ }
+}
+```
+
+Protocols can be Generic:
+```swift
+protocol Identifiable {
+	// declares don't cares in slightly different way
+	// BUT ID has to conform to Hashable
+	associatedtype ID: Hashable // OR associatedtype ID where ID: Hashable
+	var id: ID { get }
+}
+```
+
+#### `some`
+i.e. type is opaque - can't see what it is but knows it conforms to the protocol
+- Used with protocols to pass things in or out of vars/funcs
+	- Parameter type
+		- `func fill<S>(_ whatToFillWith: S) -> View where S: ShapeStyle`
+		- can be written as: `func fill<S>(_ whatToFillWith: some ShapeStyle)`
+			- dont care what to fill, as long as it conforms to the ShapeStyle protocol
+	- return type
+		- Actual type is calculated when returned
+		- all paths through implementation should return something of the same type
+		- n.b. something like `@ViewBuilder` forces `var body` to return the same type (despite being different views)
+		- Don't have something similar for shapes
+
+
+#### `any`
+- simple protocols -> use as a type (e.g. `Array<Foo>`)
+- others where **genericness OR self** is involved (like Identifiable & Equatable)
+	- `let ids = [any Identifiable]()`
+	- array recognises `any` as a type - actual implementation of this just has to conform to the Identifiable protocol
+	- To do anything with these ids, need a func that takes `some Identifiable` - dontcare, as long as it conforms
+
+
