@@ -174,7 +174,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         }
         */
         
-        var isFaceUp = false
+        var isFaceUp = true
         var isMatched = false
         var seen = false
         let content: CardContent    // card content wont change during the game
