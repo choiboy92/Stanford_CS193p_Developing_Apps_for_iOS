@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  SetView.swift
 //  Set
 //
 //  Created by Junho Choi on 30/04/2024.
@@ -7,7 +7,11 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct SetView: View {
+    //initialise the ViewModel - Reactive UI
+    @ObservedObject var viewModel: SetViewModel
+    
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -20,5 +24,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    SetView(viewModel: SetViewModel())
 }
