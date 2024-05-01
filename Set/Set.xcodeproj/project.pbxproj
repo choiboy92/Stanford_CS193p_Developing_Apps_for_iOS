@@ -14,6 +14,8 @@
 		61E1EDAE2BE1202200B59727 /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E1EDAD2BE1202200B59727 /* AspectVGrid.swift */; };
 		61E1EDB02BE126A300B59727 /* SetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E1EDAF2BE126A300B59727 /* SetViewModel.swift */; };
 		61E1EDB22BE126B000B59727 /* SetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E1EDB12BE126B000B59727 /* SetModel.swift */; };
+		61E1EDB42BE12F9000B59727 /* Cardify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E1EDB32BE12F9000B59727 /* Cardify.swift */; };
+		61E1EDB62BE1337500B59727 /* TristateBool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E1EDB52BE1337500B59727 /* TristateBool.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,8 @@
 		61E1EDAD2BE1202200B59727 /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
 		61E1EDAF2BE126A300B59727 /* SetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetViewModel.swift; sourceTree = "<group>"; };
 		61E1EDB12BE126B000B59727 /* SetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetModel.swift; sourceTree = "<group>"; };
+		61E1EDB32BE12F9000B59727 /* Cardify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cardify.swift; sourceTree = "<group>"; };
+		61E1EDB52BE1337500B59727 /* TristateBool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TristateBool.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +66,8 @@
 				61E1EDAD2BE1202200B59727 /* AspectVGrid.swift */,
 				61E1EDAF2BE126A300B59727 /* SetViewModel.swift */,
 				61E1EDB12BE126B000B59727 /* SetModel.swift */,
+				61E1EDB52BE1337500B59727 /* TristateBool.swift */,
+				61E1EDB32BE12F9000B59727 /* Cardify.swift */,
 				61E1EDA32BE11C0200B59727 /* Assets.xcassets */,
 				61E1EDA52BE11C0200B59727 /* Preview Content */,
 			);
@@ -146,10 +152,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61E1EDB42BE12F9000B59727 /* Cardify.swift in Sources */,
 				61E1EDA22BE11BFE00B59727 /* SetView.swift in Sources */,
 				61E1EDB02BE126A300B59727 /* SetViewModel.swift in Sources */,
 				61E1EDB22BE126B000B59727 /* SetModel.swift in Sources */,
 				61E1EDA02BE11BFE00B59727 /* SetApp.swift in Sources */,
+				61E1EDB62BE1337500B59727 /* TristateBool.swift in Sources */,
 				61E1EDAE2BE1202200B59727 /* AspectVGrid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,18 +11,33 @@ struct SetView: View {
     //initialise the ViewModel - Reactive UI
     @ObservedObject var viewModel: SetViewModel
     
-    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Set")
+                .font(.title)
+            Spacer()
+            // AspectVGrid(<#T##items: [Identifiable]##[Identifiable]#>, aspectRatio: <#T##CGFloat#>, content: <#T##(Identifiable) -> View#>)
+            cards
+            
         }
         .padding()
     }
+    
+    
+    var cards: some View {
+            RoundedRectangle(cornerRadius: 12.0)
+                .fill(Color.white)
+                .border(Color.black)
+                .overlay(
+                    viewModel.TestCard.overallContent()
+                        .aspectRatio(1, contentMode: .fit)
+                        .padding(5)
+                )
+    }
 }
+
 
 #Preview {
     SetView(viewModel: SetViewModel())
 }
+
