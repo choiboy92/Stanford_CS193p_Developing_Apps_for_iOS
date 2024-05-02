@@ -14,16 +14,13 @@ import SwiftUI
 
 class SetViewModel: ObservableObject {
     
-    private static let ShapeType: Trool = .state2
+    private static let ShapeType: Trool = .state1
     private static let NumberOfShapes: Trool = .state3
-    private static let ShapeFilling: Trool = .state3
-    private static let ShapeColor: Trool = .state2
+    private static let ShapeShade: Trool = .state2
+    private static let ShapeColor: Trool = .state1
         
     
-    var TestCard = ClassicTheme(feature1: ShapeType, feature2: NumberOfShapes, feature3: ShapeFilling, feature4: ShapeColor)
-    
-    
-    
+    var TestCard = ClassicTheme(feature1: ShapeType, feature2: NumberOfShapes, feature3: ShapeShade, feature4: ShapeColor)
     
     struct ClassicTheme: Equatable {
         private let ShapeType: Trool
@@ -38,36 +35,35 @@ class SetViewModel: ObservableObject {
             self.NumberOfShapes = feature2
             self.ShapeFilling = feature3
             self.ShapeColor = feature4
-            
-            self.featureList = [ShapeType, NumberOfShapes, ShapeFilling, ShapeColor]
-            
+
+            self.featureList = [feature1, feature2, feature3, feature4]
+
         }
         
         @ViewBuilder
         func overallContent() -> some View {
             let num: Int = NumberOfShapesImplementation()
-            let sh = ShapeImplementation()
+            let c = WhichColor()
+            let sh = ShapeImplementation(with: c)
             
             VStack {
-                Text("\(num)")
+                Text("\(featureList)")
                 ForEach(0..<num) { _ in
                     sh
                         .padding(10.0)
                 }
             }
-            
-            
         }
         
         @ViewBuilder
-        func ShapeImplementation() -> some View {
+        func ShapeImplementation(with color: Color) -> some View {
             switch ShapeType {
             case .state1:
-                ShapeColorImplementation(to: RoundedRectangle(cornerRadius: 5.0))     // Rounded rectangle
+                ShapeShadingImplementation(to: RoundedRectangle(cornerRadius: 50.0), with: color)     // Rounded rectangle
             case .state2:
-                ShapeColorImplementation(to: Rectangle())     // Rectangle
+                ShapeShadingImplementation(to: Rectangle(), with: color)     // Rectangle
             case .state3:
-                ShapeColorImplementation(to: Circle())        // diamond
+                ShapeShadingImplementation(to: Circle(), with: color)        // diamond
             }
         }
         
@@ -82,15 +78,32 @@ class SetViewModel: ObservableObject {
             }
         }
         
-        @ViewBuilder
-        func ShapeColorImplementation(to shape: some Shape) -> some View {
-            switch ShapeFilling {
+        func WhichColor() -> Color {
+            switch ShapeColor {
             case .state1:
-                shape.fill(Color.green)
+                .green
             case .state2:
-                shape.fill(Color.blue)
+                .blue
             case .state3:
-                shape.fill(Color.red)
+                .red
+            }
+        }
+        
+        @ViewBuilder
+        func ShapeShadingImplementation(to shape: some Shape, with color: Color) -> some View {
+            switch ShapeShade {
+            case .state1:
+                shape
+                    .stroke(color, lineWidth: 10.0)
+                    .fill(Color.white)
+            case .state2:
+                shape
+                    .stroke(color, lineWidth: 10.0)
+                    .fill(color)
+                    .opacity(0.5)
+            case .state3:
+                shape
+                    .fill(color)
             }
         }
     }
