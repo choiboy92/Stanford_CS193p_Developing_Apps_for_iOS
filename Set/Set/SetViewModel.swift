@@ -14,9 +14,9 @@ import SwiftUI
 
 class SetViewModel: ObservableObject {
     
-    private static let ShapeType: Trool = .state1
+    private static let ShapeType: Trool = .state3
     private static let NumberOfShapes: Trool = .state3
-    private static let ShapeShade: Trool = .state2
+    private static let ShapeShade: Trool = .state1
     private static let ShapeColor: Trool = .state1
         
     
@@ -47,10 +47,10 @@ class SetViewModel: ObservableObject {
             let sh = ShapeImplementation(with: c)
             
             VStack {
-                Text("\(featureList)")
+                // Text("\(featureList)")
                 ForEach(0..<num) { _ in
                     sh
-                        .padding(10.0)
+                        .padding(30.0)
                 }
             }
         }
@@ -61,9 +61,9 @@ class SetViewModel: ObservableObject {
             case .state1:
                 ShapeShadingImplementation(to: RoundedRectangle(cornerRadius: 50.0), with: color)     // Rounded rectangle
             case .state2:
-                ShapeShadingImplementation(to: Rectangle(), with: color)     // Rectangle
+                ShapeShadingImplementation(to: Capsule(), with: color)     // Rectangle
             case .state3:
-                ShapeShadingImplementation(to: Circle(), with: color)        // diamond
+                ShapeShadingImplementation(to: Diamond(), with: color)        // diamond
             }
         }
         
