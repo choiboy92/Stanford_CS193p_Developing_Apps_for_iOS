@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct SetModel<CardContent> where CardContent: Equatable {
+struct SetModel {
     
     private(set) var cards: Array<Card>     // access control
     
@@ -26,20 +26,24 @@ struct SetModel<CardContent> where CardContent: Equatable {
 //        }
 //    }
     
-    var TestCard: Card
+    // var TestCard: Card
     // want to create an array of cards that contain all combinations of the features
     // iterate through the features,
     
-    
+    init(cardContentFactory: () -> [Trool]) {
+        cards = []
+        let content = cardContentFactory()
+        cards.append(Card(id: "test_card", featureState: content))
+    }
     
     struct Card: Equatable, Identifiable {
         
         var id: String
-        var featureList: [Trool]    // holds the state of each of the card features
+        var featureState: [Trool]    // holds the state of each of the card features
         
         var isSelected: Bool = false
         var isPartOfSet: Bool = false
-        let content: CardContent    // card content wont change during the game
+//        let content: themeContent    // card content wont change during the game
     }
     
     
