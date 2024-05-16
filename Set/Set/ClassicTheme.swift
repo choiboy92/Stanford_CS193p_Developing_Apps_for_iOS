@@ -98,7 +98,7 @@ struct ClassicTheme: Equatable {
             VStack {
                 Spacer()
                 // Text("\(featureList)")
-                ForEach(0..<num) { _ in
+                ForEach(0..<num, id:\.self) { _ in
                     ShapeImplementation(with: c!)
                         .padding(.leading, 15)
                         .padding(.trailing, 15)
