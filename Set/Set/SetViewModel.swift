@@ -18,7 +18,7 @@ class SetViewModel: ObservableObject {
     @Published private var model = CardGeneration()
     
     var cards: Array<SetModel.Card> {
-        return model.cards
+        return model.shownCards
     }
     
 }

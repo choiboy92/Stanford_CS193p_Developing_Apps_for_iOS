@@ -11,6 +11,7 @@ import Foundation
 
 struct SetModel {    
     private(set) var cards: Array<Card>     // access control
+    private(set) var shownCards: Array<Card>     // access control
     
     init() {
         // want to create an array of cards that contain all combinations of the features
@@ -29,6 +30,7 @@ struct SetModel {
             }
         }
         cards.shuffle()
+        shownCards = Array(cards[..<12])
     }
     
     struct Card: Equatable, Identifiable {
