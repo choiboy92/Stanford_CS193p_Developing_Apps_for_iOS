@@ -25,7 +25,10 @@ struct AspectVGrid<Item: Identifiable, ItemView: View>: View {
                 size: geometry.size,
                 atAspectRatio: aspectRatio
             )
-            if gridItemSize <= 100 {
+            
+            var overflowRequired = overflowRequired(gridItemWidth: gridItemSize, count: items.count, size: geometry.size, atAspectRatio: aspectRatio)
+            
+            if overflowRequired {
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: gridItemSize), spacing: 0)], spacing: 0) {
                         ForEach(items) { item in
@@ -45,6 +48,17 @@ struct AspectVGrid<Item: Identifiable, ItemView: View>: View {
         }
     }
     
+    private func overflowRequired(gridItemWidth: CGFloat, count: Int, size: CGSize, atAspectRatio aspectRatio: CGFloat) -> Bool {
+        let gridItemHeight = gridItemWidth / aspectRatio
+        let rowCount = CGFloat(count) / (size.width / gridItemWidth).rounded(.down)
+        
+        if rowCount * gridItemHeight > size.height {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     private func gridItemWidthThatFits(
         count: Int,
         size: CGSize,
@@ -61,7 +75,7 @@ struct AspectVGrid<Item: Identifiable, ItemView: View>: View {
             if rowCount * height < size.height {
                 return (size.width / columnCount).rounded(.down)
             } else if width < minItemWidth {
-                return (size.width / columnCount).rounded(.down)
+                return width.rounded(.down)
             }
             columnCount += 1
         } while columnCount < count
