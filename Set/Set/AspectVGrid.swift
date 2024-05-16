@@ -25,10 +25,21 @@ struct AspectVGrid<Item: Identifiable, ItemView: View>: View {
                 size: geometry.size,
                 atAspectRatio: aspectRatio
             )
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: gridItemSize), spacing: 0)], spacing: 0) {
-                ForEach(items) { item in
-                    content(item)
-                        .aspectRatio(aspectRatio, contentMode: .fit)
+            if gridItemSize <= 100 {
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: gridItemSize), spacing: 0)], spacing: 0) {
+                        ForEach(items) { item in
+                            content(item)
+                                .aspectRatio(aspectRatio, contentMode: .fit)
+                        }
+                    }
+                }
+            } else {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: gridItemSize), spacing: 0)], spacing: 0) {
+                    ForEach(items) { item in
+                        content(item)
+                            .aspectRatio(aspectRatio, contentMode: .fit)
+                    }
                 }
             }
         }
@@ -41,12 +52,15 @@ struct AspectVGrid<Item: Identifiable, ItemView: View>: View {
     ) -> CGFloat {
         let count = CGFloat(count)
         var columnCount = 1.0
+        let minItemWidth = CGFloat(100)
         repeat {
             let width = size.width / columnCount
             let height = width / aspectRatio
             
             let rowCount = (count / columnCount).rounded(.up)
             if rowCount * height < size.height {
+                return (size.width / columnCount).rounded(.down)
+            } else if width < minItemWidth {
                 return (size.width / columnCount).rounded(.down)
             }
             columnCount += 1

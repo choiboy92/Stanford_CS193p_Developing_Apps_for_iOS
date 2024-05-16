@@ -8,10 +8,6 @@
 
 import SwiftUI
 
-
-
-
-
 class SetViewModel: ObservableObject {
     var theme = ClassicTheme()
     
