@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		610E0BD12BF61F5C004D42F5 /* ClassicTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E0BD02BF61F5C004D42F5 /* ClassicTheme.swift */; };
 		61E1EDA02BE11BFE00B59727 /* SetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E1ED9F2BE11BFE00B59727 /* SetApp.swift */; };
 		61E1EDA22BE11BFE00B59727 /* SetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E1EDA12BE11BFE00B59727 /* SetView.swift */; };
 		61E1EDA42BE11C0200B59727 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61E1EDA32BE11C0200B59727 /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		610E0BD02BF61F5C004D42F5 /* ClassicTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassicTheme.swift; sourceTree = "<group>"; };
 		61E1ED9C2BE11BFE00B59727 /* Set.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Set.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61E1ED9F2BE11BFE00B59727 /* SetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetApp.swift; sourceTree = "<group>"; };
 		61E1EDA12BE11BFE00B59727 /* SetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetView.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				61E1EDA12BE11BFE00B59727 /* SetView.swift */,
 				61E1EDAD2BE1202200B59727 /* AspectVGrid.swift */,
 				61E1EDAF2BE126A300B59727 /* SetViewModel.swift */,
+				610E0BD02BF61F5C004D42F5 /* ClassicTheme.swift */,
 				61E1EDB92BE39BBC00B59727 /* Diamond.swift */,
 				61E1EDB12BE126B000B59727 /* SetModel.swift */,
 				61E1EDB52BE1337500B59727 /* TristateBool.swift */,
@@ -101,6 +104,8 @@
 			dependencies = (
 			);
 			name = Set;
+			packageProductDependencies = (
+			);
 			productName = Set;
 			productReference = 61E1ED9C2BE11BFE00B59727 /* Set.app */;
 			productType = "com.apple.product-type.application";
@@ -129,6 +134,8 @@
 				Base,
 			);
 			mainGroup = 61E1ED932BE11BFE00B59727;
+			packageReferences = (
+			);
 			productRefGroup = 61E1ED9D2BE11BFE00B59727 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -157,6 +164,7 @@
 			files = (
 				61E1EDB42BE12F9000B59727 /* Cardify.swift in Sources */,
 				61E1EDA22BE11BFE00B59727 /* SetView.swift in Sources */,
+				610E0BD12BF61F5C004D42F5 /* ClassicTheme.swift in Sources */,
 				61E1EDB02BE126A300B59727 /* SetViewModel.swift in Sources */,
 				61E1EDB22BE126B000B59727 /* SetModel.swift in Sources */,
 				61E1EDBA2BE39BBC00B59727 /* Diamond.swift in Sources */,

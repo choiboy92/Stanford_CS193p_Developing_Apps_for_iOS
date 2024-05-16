@@ -8,7 +8,7 @@
 import Foundation
 
 // Custom Trool type - three states (tri-bool)
-enum Trool {
+enum Trool: CaseIterable {
     case state1
     case state2
     case state3
