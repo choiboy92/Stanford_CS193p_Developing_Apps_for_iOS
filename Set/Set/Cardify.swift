@@ -9,8 +9,6 @@
 import SwiftUI
 
 struct Cardify: ViewModifier {
-//    let isFaceUp: Bool
-    
     // base function requirement for this to conform to the viewModifier protocol
     func body(content: Content) -> some View {
         // this is the view that is returned by the viewModifier
@@ -19,9 +17,6 @@ struct Cardify: ViewModifier {
             base.strokeBorder(lineWidth: Constants.lineWidth)   // makes more specific strokeBorder that control the size
                 .background(base.fill(.white))  // set card background as white
                 .overlay(content)               // overlayed by the emojii BUT not controlling size
-//                .opacity(isFaceUp ? 1 : 0)
-//            base.fill()
-//                .opacity(isFaceUp ? 0 : 1)
         }
     }
     
